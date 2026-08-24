@@ -7,12 +7,12 @@ Codex host marketplace installation may still request host authorization
 because the marketplace metadata declares `ON_INSTALL`. It writes only
 reviewable local artifacts and never deploys or mutates product code.
 
-The prepublication beta install command is
-`codex plugin marketplace add plugtheliam/founder-product-compiler --ref v0.1.0`.
-The `v0.1.0` reference is mutable and is not an immutable trust boundary.
-Before the first public push, the release owner must record the first release
-payload's exact 40-hex commit in the root `RELEASE_COMMIT` marker, then update
-the final public `main` README in a second docs commit to pin that full commit
-SHA before pushing. The canonical structured input is
+The verified release install command is
+`codex plugin marketplace add plugtheliam/founder-product-compiler --ref 2a869c0a83f7547eb4e964b9b75543be2ec5d93a`.
+The annotated `v0.1.0` tag is a convenience version tag for browsing and
+release identification; the full 40-hex commit SHA above is the verified
+installation target. Keep the full SHA pinned in install commands rather than
+substituting a branch or tag. The root `RELEASE_COMMIT` marker records the
+same verified SHA. The canonical structured input is
 `assets/canonical-input.json`; the wrapper is
 `scripts/founder-product-compiler.mjs`.

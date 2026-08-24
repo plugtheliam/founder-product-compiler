@@ -7,7 +7,9 @@
   repository marketplace.
 - Added local READY, NOT_READY, error, parity, safety, and reproducibility
   checks.
-- The `v0.1.0` reference is a mutable, versioned prepublication beta
-  convenience only. Before the first public push, the release payload's full
-  commit SHA will be recorded in `RELEASE_COMMIT`, followed by a second docs
-  commit that pins the final public `main` README to that SHA.
+- Recorded `2a869c0a83f7547eb4e964b9b75543be2ec5d93a` in `RELEASE_COMMIT` as
+  the verified release installation target and pinned public install guidance
+  to that full commit SHA.
+- Added the annotated `v0.1.0` tag as a convenience version tag for browsing
+  and release identification; the full commit SHA remains the verified
+  installation target.

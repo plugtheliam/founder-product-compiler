@@ -21,10 +21,10 @@ product code or publishes generated artifacts.
 
 In Codex:
 
-1. Before publication is finalized, the versioned beta instructions are:
+1. Install the verified release commit:
 
    ```text
-   codex plugin marketplace add plugtheliam/founder-product-compiler --ref v0.1.0
+   codex plugin marketplace add plugtheliam/founder-product-compiler --ref 2a869c0a83f7547eb4e964b9b75543be2ec5d93a
    ```
 
 2. Open `/plugins` and install `founder-product-compiler`.
@@ -32,15 +32,13 @@ In Codex:
 4. Invoke `$founder-product-compiler` with an attached or pasted JSON/YAML
    brief.
 
-The `v0.1.0` reference is a versioned prepublication beta convenience only;
-it is mutable and is not an immutable trust boundary. Before the first public
-push, the release owner must create the release payload and record its exact
-40-hex commit in a root `RELEASE_COMMIT` marker. The final public `main`
-README will then be updated in a second docs commit to use
-`--ref <that full commit SHA>` before the push. Do not infer or substitute a
-hash here. The repository marketplace is the first public distribution
-channel. A universal directory is a possible later distribution and is not
-part of this release.
+The annotated `v0.1.0` tag is a convenience version tag for browsing and release
+identification. The full 40-hex commit SHA above is the verified installation
+target; keep it pinned in copied install commands rather than substituting a
+branch or tag. The root `RELEASE_COMMIT` marker records the same verified SHA.
+The repository marketplace is the first public distribution channel. A
+universal directory is a possible later distribution and is not part of this
+release.
 
 ## Run the compiler locally
 

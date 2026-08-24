@@ -22,20 +22,18 @@ is repo-local), and never mutate product code, publish, deploy, or send data.
 
 ## Distribution and packaging
 
-The first distribution channel is the GitHub repository marketplace. Before
-publication is finalized, the versioned beta instructions are:
+The first distribution channel is the GitHub repository marketplace. The
+verified release install command is:
 
 ```text
-codex plugin marketplace add plugtheliam/founder-product-compiler --ref v0.1.0
+codex plugin marketplace add plugtheliam/founder-product-compiler --ref 2a869c0a83f7547eb4e964b9b75543be2ec5d93a
 ```
 
-The `v0.1.0` reference is a mutable, versioned prepublication beta
-convenience, not an immutable trust boundary. Before the first public push,
-the release owner must create the release payload and record its exact 40-hex
-commit in a root `RELEASE_COMMIT` marker. The final public `main` README will
-then be updated in a second docs commit to pin that full commit SHA with
-`--ref <that full commit SHA>` before the push. No hash is invented in this
-prepublication tree. The repository marketplace source remains the required
+The annotated `v0.1.0` tag is a convenience version tag for browsing and
+release identification. The full 40-hex commit SHA above is the verified
+installation target; copied install commands must keep that SHA and must not
+substitute a branch or tag. The root `RELEASE_COMMIT` marker records the same
+verified SHA. The repository marketplace source remains the required
 repository-relative path `./plugins/founder-product-compiler` in
 `.agents/plugins/marketplace.json`.
 
