@@ -41,6 +41,15 @@ const requiredFiles = [
   "docs/DIAGNOSTICS.md",
   "docs/EXAMPLES.md",
   "docs/TDD_IMPLEMENTATION_RECEIPT.md",
+  "docs/RELEASE_NOTES_v0.1.0.md",
+  "docs/SHOWCASE.md",
+  "docs/ROADMAP.md",
+  "docs/TRANSLATION_GUIDE.md",
+  "docs/assets/social-preview.svg",
+  "docs/i18n/README.ko.md",
+  "docs/i18n/README.ja.md",
+  "docs/i18n/README.zh-CN.md",
+  "docs/i18n/README.es.md",
   "CONTRIBUTING.md",
   "SECURITY.md",
   "CODE_OF_CONDUCT.md",
@@ -68,6 +77,12 @@ function runNode(args, options = {}) {
 
 function json(path) {
   return JSON.parse(readFileSync(path, "utf8"));
+}
+
+function comparableArtifact(path, file) {
+  const artifact = json(path);
+  if (file === "compilation-receipt.json") delete artifact.createdAt;
+  return artifact;
 }
 
 test("public release contains the required independent files", async () => {
@@ -273,8 +288,8 @@ test("JSON and YAML inputs have equivalent canonical artifacts", async () => {
     const yamlRun = runNode([wrapper, "--input", yamlInput, "--out", join(dir, "yaml")]);
     assert.equal(jsonRun.status, 0, jsonRun.stderr);
     assert.equal(yamlRun.status, 0, yamlRun.stderr);
-    for (const file of ["product-ir.json", "readiness.json", "executable-spec.json", "goal-dag.json", "diagnostics.json"]) {
-      assert.deepEqual(json(join(dir, "json", file)), json(join(dir, "yaml", file)), file);
+    for (const file of ["product-ir.json", "readiness.json", "executable-spec.json", "goal-dag.json", "diagnostics.json", "compilation-receipt.json"]) {
+      assert.deepEqual(comparableArtifact(join(dir, "json", file), file), comparableArtifact(join(dir, "yaml", file), file), file);
     }
   } finally {
     await rm(dir, { recursive: true, force: true });
@@ -326,8 +341,8 @@ test("source and bundled plugin outputs match and builds are current", async () 
     const bundled = runNode([wrapper, "--input", fixture, "--out", join(dir, "bundled")]);
     assert.equal(source.status, 0, source.stderr);
     assert.equal(bundled.status, 0, bundled.stderr);
-    for (const file of ["product-ir.json", "readiness.json", "executable-spec.json", "goal-dag.json", "diagnostics.json"]) {
-      assert.deepEqual(json(join(dir, "source", file)), json(join(dir, "bundled", file)), file);
+    for (const file of ["product-ir.json", "readiness.json", "executable-spec.json", "goal-dag.json", "diagnostics.json", "compilation-receipt.json"]) {
+      assert.deepEqual(comparableArtifact(join(dir, "source", file), file), comparableArtifact(join(dir, "bundled", file), file), file);
     }
   } finally {
     await rm(dir, { recursive: true, force: true });

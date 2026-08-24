@@ -15,14 +15,16 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "tsx --test test/fpc.test.ts",
+    "test": "npm run test:compiler && npm run test:docs",
+    "test:compiler": "tsx --test test/fpc.test.ts",
+    "test:docs": "node --test test/readme.test.mjs test/community-files.test.mjs",
     "test:public": "node --test test/public-release.test.mjs",
     "test:determinism": "node --test --test-name-pattern=deterministic --import tsx test/fpc.test.ts",
     "validate:schemas": "tsx scripts/validate-artifacts.ts",
     "build:plugin": "npm run build && node scripts/build-plugin.mjs",
     "validate:public": "node scripts/public-validate.mjs",
     "check:plugin": "npm run build:plugin -- --check",
-    "check:release": "npm ci && npm run typecheck && npm test && npm run build && npm run build:plugin && npm run validate:public && npm run check:plugin"
+    "check:release": "npm ci && npm run typecheck && npm test && npm run build && npm run build:plugin && npm run validate:public && npm run check:plugin && npm run test:public"
   },
   "dependencies": {
     "yaml": "^2.8.1"

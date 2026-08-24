@@ -21,7 +21,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
       - name: Compiler tests
-        run: npm test
+        run: npm run test:compiler
+      - name: Documentation and community tests
+        run: npm run test:docs
       - name: Build compiler
         run: npm run build
       - name: Build tracked plugin bundle

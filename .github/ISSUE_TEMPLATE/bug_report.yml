@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible problem in the compiler or Codex plugin.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve Founder Product Compiler. Please remove secrets and private product data before posting.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Include the plugin version or full release commit you installed.
+      placeholder: v0.1.0 or 2a869c0a83f7547eb4e964b9b75543be2ec5d93a
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: List the smallest input and exact commands that reproduce the issue.
+      placeholder: |
+        1. Install ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the relevant error, with paths, credentials, and private brief content removed.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Codex host version, and Node.js version if relevant.
+    validations:
+      required: true
