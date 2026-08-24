@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/compilation-receipt.v0.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "compilerVersion", "sourceHash", "productIRHash", "readinessVerdict", "artifactPaths", "createdAt"],
+  "properties": {
+    "schemaVersion": { "const": "fpc.v0" }, "compilerVersion": { "type": "string", "minLength": 1 },
+    "sourceHash": { "$ref": "#/$defs/hash" }, "productIRHash": { "$ref": "#/$defs/hash" }, "executableSpecHash": { "$ref": "#/$defs/hash" }, "goalDagHash": { "$ref": "#/$defs/hash" },
+    "readinessVerdict": { "enum": ["READY", "NOT_READY"] }, "artifactPaths": { "type": "object", "minProperties": 4, "additionalProperties": { "type": "string", "minLength": 1 } }, "createdAt": { "type": "string", "minLength": 1 }
+  },
+  "$defs": { "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" } }
+}

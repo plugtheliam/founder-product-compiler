@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/goal-dag.v0.json",
+  "title": "Founder Product Compiler Goal DAG v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "compilerVersion", "productId", "productIRHash", "roots", "goals"],
+  "properties": {
+    "schemaVersion": { "const": "fpc.v0" },
+    "compilerVersion": { "$ref": "#/$defs/nonEmpty" },
+    "productId": { "$ref": "#/$defs/nonEmpty" },
+    "productIRHash": { "$ref": "#/$defs/hash" },
+    "roots": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
+    "goals": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/compiledGoal" } }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "stringList": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
+    "nonEmptyList": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
+    "oracleRefs": {
+      "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"],
+      "properties": {
+        "code": { "$ref": "#/$defs/nonEmptyList" }, "journey": { "$ref": "#/$defs/nonEmptyList" }, "thesis": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "validationBoundary": {
+      "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"],
+      "properties": {
+        "code": { "$ref": "#/$defs/nonEmptyList" }, "journey": { "$ref": "#/$defs/nonEmptyList" }, "thesis": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "verticalSlice": {
+      "type": "object", "additionalProperties": false, "required": ["stages", "deliversMagicMoment"],
+      "properties": { "stages": { "$ref": "#/$defs/stringList" }, "deliversMagicMoment": { "type": "boolean" } }
+    },
+    "compiledGoal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "charterRefs", "journeyRefs", "localObjective", "localAcceptance", "globalAcceptance", "forbiddenScope", "escalationRule", "dependencies", "validationBoundary", "oracleRefs", "verticalSlice"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmpty" }, "title": { "$ref": "#/$defs/nonEmpty" },
+        "charterRefs": { "$ref": "#/$defs/nonEmptyList" }, "journeyRefs": { "$ref": "#/$defs/stringList" },
+        "localObjective": { "$ref": "#/$defs/nonEmpty" }, "localAcceptance": { "$ref": "#/$defs/nonEmptyList" },
+        "globalAcceptance": { "$ref": "#/$defs/stringList" }, "forbiddenScope": { "$ref": "#/$defs/nonEmptyList" },
+        "escalationRule": { "$ref": "#/$defs/nonEmpty" }, "dependencies": { "$ref": "#/$defs/stringList" },
+        "validationBoundary": { "$ref": "#/$defs/validationBoundary" }, "oracleRefs": { "$ref": "#/$defs/oracleRefs" },
+        "verticalSlice": { "$ref": "#/$defs/verticalSlice" }
+      }
+    }
+  }
+}

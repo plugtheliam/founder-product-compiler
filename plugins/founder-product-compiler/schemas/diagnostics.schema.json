@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/diagnostics.v0.json",
+  "type": "object", "additionalProperties": false, "required": ["verdict", "diagnostics"],
+  "properties": { "verdict": { "enum": ["READY", "NOT_READY"] }, "diagnostics": { "type": "array", "items": { "$ref": "#/$defs/finding" } } },
+  "$defs": { "finding": { "type": "object", "additionalProperties": false, "required": ["code", "severity", "path", "message"], "properties": { "code": { "type": "string", "minLength": 1 }, "severity": { "enum": ["error", "warning"] }, "path": { "type": "string", "minLength": 1 }, "message": { "type": "string", "minLength": 1 } } } }
+}

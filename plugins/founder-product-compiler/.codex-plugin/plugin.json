@@ -1,0 +1,27 @@
+{
+  "name": "founder-product-compiler",
+  "version": "0.1.0",
+  "description": "Compile founder product briefs into validated Product IR, readiness reports, executable specifications, and Charter-linked Goal DAGs.",
+  "author": {
+    "name": "plugtheliam",
+    "url": "https://github.com/plugtheliam"
+  },
+  "homepage": "https://github.com/plugtheliam/founder-product-compiler",
+  "repository": "https://github.com/plugtheliam/founder-product-compiler",
+  "license": "Apache-2.0",
+  "keywords": ["founder", "product", "compiler", "readiness", "planning"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Founder Product Compiler",
+    "shortDescription": "Turn product intent into a readiness-gated build contract.",
+    "longDescription": "Compile confirmed product briefs locally into deterministic Product IR, readiness findings, executable specifications, and Charter-linked vertical-slice goals. English-first and skills-only. Runtime requires no product account, API key, network, or auth; Codex host marketplace installation may still request host authorization because the marketplace metadata declares ON_INSTALL.",
+    "developerName": "plugtheliam",
+    "category": "Productivity",
+    "capabilities": ["Local file processing", "Deterministic artifact validation"],
+    "defaultPrompt": [
+      "Compile this founder brief and report blockers.",
+      "Turn this product brief into a validated build contract.",
+      "Check whether this product intent is ready to execute."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "missing-promise": { "operation": "delete", "path": "promise" },
+  "missing-magic-moment": { "operation": "delete", "path": "magicMoment" },
+  "orphan-goal": { "operation": "replace", "path": "goals.0.charterRefs", "value": ["UNKNOWN-CLAUSE"] },
+  "cut-list-conflict": { "operation": "replace", "path": "goals.0.localObjective", "value": "Build a complex organization permission system for every team" },
+  "technical-layer-first-goal": { "operation": "replace", "path": "goals.0.verticalSlice", "value": { "stages": ["database"], "deliversMagicMoment": false } },
+  "missing-global-acceptance": { "operation": "replace", "path": "goals.0.globalAcceptance", "value": [] },
+  "missing-budget": { "operation": "delete", "path": "autonomyBudget" },
+  "unbounded-budget": { "operation": "replace", "path": "autonomyBudget.maxReviewCycles", "value": 99 }
+}

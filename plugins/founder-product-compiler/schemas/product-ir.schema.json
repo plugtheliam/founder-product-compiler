@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/product-ir.v0.json",
+  "title": "Founder Product Compiler Product IR v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "compilerVersion", "product", "charter", "journeys", "authorityMatrix", "autonomyBudget", "autonomyBudgetProvided", "oracles", "goals", "sourceHash"],
+  "properties": {
+    "schemaVersion": { "const": "fpc.v0" },
+    "compilerVersion": { "$ref": "#/$defs/nonEmpty" },
+    "sourceHash": { "$ref": "#/$defs/hash" },
+    "autonomyBudgetProvided": { "type": "boolean" },
+    "product": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "targetUser", "trigger", "promise", "behaviorChange", "magicMoment", "coreLoop", "wedge", "nonGoals"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmpty" }, "title": { "$ref": "#/$defs/nonEmpty" }, "targetUser": { "$ref": "#/$defs/nonEmpty" }, "trigger": { "$ref": "#/$defs/nonEmpty" }, "promise": { "$ref": "#/$defs/nonEmpty" },
+        "behaviorChange": { "$ref": "#/$defs/behaviorChange" }, "magicMoment": { "$ref": "#/$defs/magicMoment" }, "coreLoop": { "$ref": "#/$defs/coreLoop" }, "wedge": { "$ref": "#/$defs/wedge" },
+        "nonGoals": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonGoal" } }
+      }
+    },
+    "charter": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "clauses", "sha256"],
+      "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "version": { "type": "integer", "minimum": 1 }, "sha256": { "$ref": "#/$defs/hash" }, "clauses": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/clause" } } }
+    },
+    "journeys": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/journey" } },
+    "authorityMatrix": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/authority" } },
+    "autonomyBudget": { "$ref": "#/$defs/autonomyBudget" },
+    "oracles": { "$ref": "#/$defs/oracles" },
+    "goals": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/goal" } },
+    "productMovie": { "type": "object", "additionalProperties": false, "properties": { "trigger": { "$ref": "#/$defs/nonEmpty" }, "magic": { "$ref": "#/$defs/nonEmpty" }, "repeat": { "$ref": "#/$defs/nonEmpty" }, "monetization": { "$ref": "#/$defs/nonEmpty" }, "sharing": { "$ref": "#/$defs/nonEmpty" } } },
+    "controls": { "type": "object", "additionalProperties": false, "properties": { "rollback": { "$ref": "#/$defs/nonEmpty" }, "pause": { "$ref": "#/$defs/nonEmpty" }, "cancel": { "$ref": "#/$defs/nonEmpty" } } }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "stringList": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
+    "nonEmptyList": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
+    "behaviorChange": { "type": "object", "additionalProperties": false, "required": ["before", "after"], "properties": { "before": { "$ref": "#/$defs/nonEmpty" }, "after": { "$ref": "#/$defs/nonEmpty" } } },
+    "magicMoment": { "type": "object", "additionalProperties": false, "required": ["id", "definition"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "definition": { "$ref": "#/$defs/nonEmpty" } } },
+    "coreLoop": { "type": "object", "additionalProperties": false, "required": ["id", "steps"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "steps": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/nonEmpty" } } } },
+    "wedge": { "type": "object", "additionalProperties": false, "required": ["id", "definition"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "definition": { "$ref": "#/$defs/nonEmpty" } } },
+    "nonGoal": { "type": "object", "additionalProperties": false, "required": ["id", "rule"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "rule": { "$ref": "#/$defs/nonEmpty" }, "forbiddenTerms": { "$ref": "#/$defs/stringList" } } },
+    "authority": { "type": "object", "additionalProperties": false, "required": ["owner"], "properties": { "owner": { "$ref": "#/$defs/nonEmpty" }, "constraint": { "$ref": "#/$defs/nonEmpty" }, "escalationWhen": { "$ref": "#/$defs/nonEmpty" }, "examples": { "$ref": "#/$defs/nonEmptyList" } } },
+    "journey": { "type": "object", "additionalProperties": false, "required": ["id", "stage", "userAction", "productResponse", "observableOracle"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "stage": { "$ref": "#/$defs/nonEmpty" }, "userAction": { "$ref": "#/$defs/nonEmpty" }, "productResponse": { "$ref": "#/$defs/nonEmpty" }, "observableOracle": { "$ref": "#/$defs/nonEmpty" }, "magicMomentRef": { "$ref": "#/$defs/nonEmpty" } } },
+    "oracle": { "type": "object", "additionalProperties": false, "required": ["id", "description"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "description": { "$ref": "#/$defs/nonEmpty" } } },
+    "oracles": { "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"], "properties": { "code": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/oracle" } }, "journey": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/oracle" } }, "thesis": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/oracle" } } } },
+    "autonomyBudget": { "type": "object", "additionalProperties": false, "required": ["maxReviewCycles", "maxBlockerDepth", "maxNoProgressCycles", "maxGoalExpansionRatio", "maxParallelWorkers", "wallClockLimitMinutes", "quotaLimitPercent"], "properties": { "maxReviewCycles": { "type": "integer", "minimum": 1, "maximum": 10 }, "maxBlockerDepth": { "type": "integer", "minimum": 1, "maximum": 10 }, "maxNoProgressCycles": { "type": "integer", "minimum": 1, "maximum": 10 }, "maxGoalExpansionRatio": { "type": "number", "minimum": 1, "maximum": 10 }, "maxParallelWorkers": { "type": "integer", "minimum": 1, "maximum": 32 }, "wallClockLimitMinutes": { "type": "integer", "minimum": 1, "maximum": 1440 }, "quotaLimitPercent": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 } } },
+    "oracleRefs": { "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"], "properties": { "code": { "$ref": "#/$defs/stringList" }, "journey": { "$ref": "#/$defs/stringList" }, "thesis": { "$ref": "#/$defs/stringList" } } },
+    "goal": { "type": "object", "additionalProperties": false, "required": ["id", "title", "charterRefs", "journeyRefs", "localObjective", "localAcceptance", "globalAcceptance", "forbiddenScope", "escalationRule", "dependencies", "validationBoundary", "oracleRefs"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "title": { "$ref": "#/$defs/nonEmpty" }, "charterRefs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } }, "journeyRefs": { "$ref": "#/$defs/stringList" }, "localObjective": { "$ref": "#/$defs/nonEmpty" }, "localAcceptance": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } }, "globalAcceptance": { "$ref": "#/$defs/stringList" }, "forbiddenScope": { "$ref": "#/$defs/stringList" }, "escalationRule": { "$ref": "#/$defs/nonEmpty" }, "dependencies": { "$ref": "#/$defs/stringList" }, "validationBoundary": { "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"], "properties": { "code": { "$ref": "#/$defs/stringList" }, "journey": { "$ref": "#/$defs/stringList" }, "thesis": { "$ref": "#/$defs/stringList" } } }, "oracleRefs": { "$ref": "#/$defs/oracleRefs" }, "verticalSlice": { "type": "object", "additionalProperties": false, "required": ["stages", "deliversMagicMoment"], "properties": { "stages": { "$ref": "#/$defs/nonEmptyList" }, "deliversMagicMoment": { "type": "boolean" } } } } },
+    "clause": { "type": "object", "additionalProperties": false, "required": ["id", "kind", "statement"], "properties": { "id": { "$ref": "#/$defs/nonEmpty" }, "kind": { "type": "string", "minLength": 1 }, "statement": { "$ref": "#/$defs/nonEmpty" } } }
+  }
+}

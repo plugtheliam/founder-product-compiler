@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/readiness.v0.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "verdict", "findings", "errorCount", "warningCount"],
+  "properties": {
+    "schemaVersion": { "const": "fpc.v0" },
+    "verdict": { "enum": ["READY", "NOT_READY"] },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "errorCount": { "type": "integer", "minimum": 0 }, "warningCount": { "type": "integer", "minimum": 0 }
+  },
+  "$defs": { "finding": { "type": "object", "additionalProperties": false, "required": ["code", "severity", "path", "message"], "properties": { "code": { "type": "string", "minLength": 1 }, "severity": { "enum": ["error", "warning"] }, "path": { "type": "string", "minLength": 1 }, "message": { "type": "string", "minLength": 1 } } } }
+}

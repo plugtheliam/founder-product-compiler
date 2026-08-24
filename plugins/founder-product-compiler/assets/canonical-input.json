@@ -1,0 +1,169 @@
+{
+  "id": "social-growth-engine",
+  "title": "Social Growth Engine",
+  "targetUser": "A small founder-led team operating several social accounts",
+  "trigger": "The team has a campaign direction but not enough time to draft and schedule each channel",
+  "promise": "A small team keeps each brand voice consistent while a measurable content loop compounds growth",
+  "behaviorChange": {
+    "before": "People manually write, publish, and review every account separately",
+    "after": "The team approves one direction, schedules a real item, and uses performance to improve the next draft"
+  },
+  "magicMoment": {
+    "id": "MAGIC-01",
+    "definition": "After one approval, a channel-ready item is scheduled and its status is visible immediately"
+  },
+  "coreLoop": {
+    "id": "LOOP-01",
+    "steps": ["observe", "draft", "approve", "schedule", "learn"]
+  },
+  "wedge": {
+    "id": "WEDGE-01",
+    "definition": "Performance evidence changes the next draft instead of stopping at multi-account publishing"
+  },
+  "nonGoals": [
+    { "id": "CUT-01", "rule": "Do not build a complex organization permission system in v0" },
+    { "id": "CUT-02", "rule": "Do not support every social network before the core loop is proven" }
+  ],
+  "authorityMatrix": {
+    "productThesis": { "owner": "founder" },
+    "magicMoment": { "owner": "founder" },
+    "architecture": { "owner": "architect", "constraint": "Preserve Charter and global invariants" },
+    "implementationDetail": { "owner": "executor" },
+    "outwardAction": { "owner": "founder", "examples": ["publish", "send", "deploy"] }
+  },
+  "autonomyBudget": {
+    "maxReviewCycles": 3,
+    "maxBlockerDepth": 2,
+    "maxNoProgressCycles": 2,
+    "maxGoalExpansionRatio": 1.5,
+    "maxParallelWorkers": 4,
+    "wallClockLimitMinutes": 180,
+    "quotaLimitPercent": 20
+  },
+  "journeys": [
+    {
+      "id": "J01",
+      "stage": "trigger",
+      "userAction": "Choose today's campaign direction",
+      "productResponse": "Generate a channel-ready draft",
+      "observableOracle": "A reviewable draft appears within 60 seconds"
+    },
+    {
+      "id": "J02",
+      "stage": "magic",
+      "userAction": "Approve the draft once",
+      "productResponse": "Schedule the item for the selected account",
+      "observableOracle": "A real scheduled item and its status are visible",
+      "magicMomentRef": "MAGIC-01"
+    },
+    {
+      "id": "J05",
+      "stage": "input",
+      "userAction": "Choose the account and confirm the draft",
+      "productResponse": "Prepare the approved item for scheduling",
+      "observableOracle": "The selected account and approved content are visible before scheduling"
+    },
+    {
+      "id": "J06",
+      "stage": "processing",
+      "userAction": "Submit the approved item",
+      "productResponse": "Create one scheduled item",
+      "observableOracle": "The scheduler acknowledges the item without duplication"
+    },
+    {
+      "id": "J03",
+      "stage": "loop",
+      "userAction": "Open performance evidence",
+      "productResponse": "Explain how evidence changes the next draft",
+      "observableOracle": "The next draft cites an observed performance signal"
+    },
+    {
+      "id": "J04",
+      "stage": "result",
+      "userAction": "Inspect the scheduled status",
+      "productResponse": "Show the visible scheduled result",
+      "observableOracle": "The scheduled status is visible immediately"
+    }
+  ],
+  "oracles": {
+    "code": [
+      { "id": "CODE-001", "description": "Typecheck and unit tests pass" },
+      { "id": "CODE-002", "description": "Schedule retries do not duplicate an item" }
+    ],
+    "journey": [
+      { "id": "JOURNEY-001", "description": "A founder can trigger → approve → schedule → inspect status" }
+    ],
+    "thesis": [
+      { "id": "THESIS-001", "description": "A subsequent draft includes a performance-based change" }
+    ]
+  },
+  "goals": [
+    {
+      "id": "G001",
+      "title": "One-account draft to scheduled status vertical slice",
+      "charterRefs": ["CHARTER-PROMISE", "MAGIC-01", "LOOP-01", "WEDGE-01", "CUT-01"],
+      "journeyRefs": ["J01", "J02", "J04", "J05", "J06"],
+      "localObjective": "Generate one channel-ready draft, accept one approval, schedule a real item, and show its status",
+      "localAcceptance": [
+        "A draft can be generated for one account",
+        "One approval creates one scheduled item",
+        "The scheduled status is visible after the operation"
+      ],
+      "globalAcceptance": [
+        "The founder does not re-enter account configuration after choosing the campaign direction",
+        "The experience delivers the declared Magic Moment in one user-visible flow"
+      ],
+      "forbiddenScope": ["Do not add organization roles or a generic workflow builder"],
+      "escalationRule": "Return to the product decision owner if one approval cannot produce a visible schedule status",
+      "dependencies": [],
+      "validationBoundary": {
+        "code": ["unit", "integration"],
+        "journey": ["trigger", "approve", "schedule", "status"],
+        "thesis": ["one approval reduces manual channel work"]
+      },
+      "oracleRefs": {
+        "code": ["CODE-001", "CODE-002"],
+        "journey": ["JOURNEY-001"],
+        "thesis": ["THESIS-001"]
+      },
+      "verticalSlice": {
+        "stages": ["trigger", "input", "processing", "magic", "result"],
+        "deliversMagicMoment": true
+      }
+    },
+    {
+      "id": "G002",
+      "title": "Performance signal informs the next draft",
+      "charterRefs": ["MAGIC-01", "LOOP-01", "WEDGE-01", "CUT-02"],
+      "journeyRefs": ["J03"],
+      "localObjective": "Connect an observed performance signal to a concrete next-draft suggestion",
+      "localAcceptance": ["The suggestion cites one observed signal"],
+      "globalAcceptance": ["The user can recognize why the next draft changed"],
+      "forbiddenScope": ["Do not support every network before the core loop is proven"],
+      "escalationRule": "Escalate if evidence cannot be linked to a draft change",
+      "dependencies": ["G001"],
+      "validationBoundary": {
+        "code": ["unit"],
+        "journey": ["learn"],
+        "thesis": ["performance compounds the next draft"]
+      },
+      "oracleRefs": {
+        "code": ["CODE-001", "CODE-002"],
+        "journey": ["JOURNEY-001"],
+        "thesis": ["THESIS-001"]
+      }
+    }
+  ],
+  "productMovie": {
+    "trigger": "A campaign direction is ready",
+    "magic": "One approval schedules an item",
+    "repeat": "Evidence changes the next draft",
+    "sharing": "The team shares a clear status"
+  },
+  "controls": {
+    "rollback": "Remove an unposted scheduled item",
+    "pause": "Pause the compiler run before external publication",
+    "cancel": "Cancel the current run without publishing"
+  },
+  "charterVersion": 1
+}

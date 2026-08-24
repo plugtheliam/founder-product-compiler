@@ -1,0 +1,50 @@
+name: Public release checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+      - name: Clean install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Compiler tests
+        run: npm test
+      - name: Build compiler
+        run: npm run build
+      - name: Build tracked plugin bundle
+        run: npm run build:plugin
+      - name: Ensure generated plugin artifacts are current
+        run: git diff --exit-code -- plugins/founder-product-compiler/scripts/runtime plugins/founder-product-compiler/schemas
+      - name: Public acceptance validation
+        run: npm run validate:public
+      - name: Bundled plugin parity and freshness
+        run: npm run check:plugin
+      - name: Public acceptance tests
+        run: npm run test:public
+      - name: Official plugin manifest validation
+        run: |
+          if [ -n "${CODEX_PLUGIN_VALIDATOR:-}" ] && [ -f "$CODEX_PLUGIN_VALIDATOR" ]; then
+            python3 "$CODEX_PLUGIN_VALIDATOR" plugins/founder-product-compiler
+          else
+            echo "Codex plugin validator is not installed on this runner; local release checks should run it when available."
+          fi
+      - name: Official skill validation
+        run: |
+          if [ -n "${CODEX_SKILL_VALIDATOR:-}" ] && [ -f "$CODEX_SKILL_VALIDATOR" ]; then
+            python3 "$CODEX_SKILL_VALIDATOR" plugins/founder-product-compiler/skills/founder-product-compiler
+          else
+            echo "Codex skill validator is not installed on this runner; local release checks should run it when available."
+          fi

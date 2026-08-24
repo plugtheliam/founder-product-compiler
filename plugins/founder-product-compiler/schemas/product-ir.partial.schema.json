@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-product-compiler.local/schemas/product-ir.partial.v0.json",
+  "title": "Founder Product Compiler Product IR partial diagnostic bundle v0",
+  "description": "Shape contract for Product IR emitted with a NOT_READY readiness report. It preserves types and structure while allowing empty mandatory leaves so diagnostics can identify them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "compilerVersion", "product", "charter", "journeys", "authorityMatrix", "autonomyBudget", "autonomyBudgetProvided", "oracles", "goals", "sourceHash"],
+  "properties": {
+    "schemaVersion": { "const": "fpc.v0" },
+    "compilerVersion": { "$ref": "#/$defs/string" },
+    "sourceHash": { "$ref": "#/$defs/hash" },
+    "autonomyBudgetProvided": { "type": "boolean" },
+    "product": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "targetUser", "trigger", "promise", "behaviorChange", "magicMoment", "coreLoop", "wedge", "nonGoals"],
+      "properties": {
+        "id": { "$ref": "#/$defs/string" }, "title": { "$ref": "#/$defs/string" },
+        "targetUser": { "$ref": "#/$defs/string" }, "trigger": { "$ref": "#/$defs/string" }, "promise": { "$ref": "#/$defs/string" },
+        "behaviorChange": { "$ref": "#/$defs/behaviorChange" }, "magicMoment": { "$ref": "#/$defs/magicMoment" },
+        "coreLoop": { "$ref": "#/$defs/coreLoop" }, "wedge": { "$ref": "#/$defs/wedge" },
+        "nonGoals": { "type": "array", "items": { "$ref": "#/$defs/nonGoal" } }
+      }
+    },
+    "charter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "clauses", "sha256"],
+      "properties": {
+        "id": { "$ref": "#/$defs/string" }, "version": { "type": "integer" }, "sha256": { "$ref": "#/$defs/hash" },
+        "clauses": { "type": "array", "items": { "$ref": "#/$defs/clause" } }
+      }
+    },
+    "journeys": { "type": "array", "items": { "$ref": "#/$defs/journey" } },
+    "authorityMatrix": { "type": "object", "additionalProperties": { "$ref": "#/$defs/authority" } },
+    "autonomyBudget": { "$ref": "#/$defs/autonomyBudget" },
+    "oracles": { "$ref": "#/$defs/oracles" },
+    "goals": { "type": "array", "items": { "$ref": "#/$defs/goal" } },
+    "productMovie": { "$ref": "#/$defs/productMovie" },
+    "controls": { "$ref": "#/$defs/controls" }
+  },
+  "$defs": {
+    "string": { "type": "string" },
+    "stringList": { "type": "array", "items": { "$ref": "#/$defs/string" } },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "behaviorChange": {
+      "type": "object", "additionalProperties": false, "required": ["before", "after"],
+      "properties": { "before": { "$ref": "#/$defs/string" }, "after": { "$ref": "#/$defs/string" } }
+    },
+    "magicMoment": {
+      "type": "object", "additionalProperties": false, "required": ["id", "definition"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "definition": { "$ref": "#/$defs/string" } }
+    },
+    "coreLoop": {
+      "type": "object", "additionalProperties": false, "required": ["id", "steps"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "steps": { "type": "array", "items": { "$ref": "#/$defs/string" } } }
+    },
+    "wedge": {
+      "type": "object", "additionalProperties": false, "required": ["id", "definition"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "definition": { "$ref": "#/$defs/string" } }
+    },
+    "nonGoal": {
+      "type": "object", "additionalProperties": false, "required": ["id", "rule"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "rule": { "$ref": "#/$defs/string" }, "forbiddenTerms": { "$ref": "#/$defs/stringList" } }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false, "required": ["owner"],
+      "properties": {
+        "owner": { "$ref": "#/$defs/string" }, "constraint": { "$ref": "#/$defs/string" },
+        "escalationWhen": { "$ref": "#/$defs/string" }, "examples": { "$ref": "#/$defs/stringList" }
+      }
+    },
+    "autonomyBudget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["maxReviewCycles", "maxBlockerDepth", "maxNoProgressCycles", "maxGoalExpansionRatio", "maxParallelWorkers", "wallClockLimitMinutes", "quotaLimitPercent"],
+      "properties": {
+        "maxReviewCycles": { "type": "number" }, "maxBlockerDepth": { "type": "number" }, "maxNoProgressCycles": { "type": "number" },
+        "maxGoalExpansionRatio": { "type": "number" }, "maxParallelWorkers": { "type": "number" }, "wallClockLimitMinutes": { "type": "number" }, "quotaLimitPercent": { "type": "number" }
+      }
+    },
+    "journey": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "stage", "userAction", "productResponse", "observableOracle"],
+      "properties": {
+        "id": { "$ref": "#/$defs/string" }, "stage": { "$ref": "#/$defs/string" }, "userAction": { "$ref": "#/$defs/string" },
+        "productResponse": { "$ref": "#/$defs/string" }, "observableOracle": { "$ref": "#/$defs/string" }, "magicMomentRef": { "$ref": "#/$defs/string" }
+      }
+    },
+    "oracle": {
+      "type": "object", "additionalProperties": false, "required": ["id", "description"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "description": { "$ref": "#/$defs/string" } }
+    },
+    "oracles": {
+      "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"],
+      "properties": {
+        "code": { "type": "array", "items": { "$ref": "#/$defs/oracle" } }, "journey": { "type": "array", "items": { "$ref": "#/$defs/oracle" } }, "thesis": { "type": "array", "items": { "$ref": "#/$defs/oracle" } }
+      }
+    },
+    "oracleRefs": {
+      "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"],
+      "properties": { "code": { "$ref": "#/$defs/stringList" }, "journey": { "$ref": "#/$defs/stringList" }, "thesis": { "$ref": "#/$defs/stringList" } }
+    },
+    "validationBoundary": {
+      "type": "object", "additionalProperties": false, "required": ["code", "journey", "thesis"],
+      "properties": { "code": { "$ref": "#/$defs/stringList" }, "journey": { "$ref": "#/$defs/stringList" }, "thesis": { "$ref": "#/$defs/stringList" } }
+    },
+    "verticalSlice": {
+      "type": "object", "additionalProperties": false, "required": ["stages", "deliversMagicMoment"],
+      "properties": { "stages": { "$ref": "#/$defs/stringList" }, "deliversMagicMoment": { "type": "boolean" } }
+    },
+    "goal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "charterRefs", "journeyRefs", "localObjective", "localAcceptance", "globalAcceptance", "forbiddenScope", "escalationRule", "dependencies", "validationBoundary"],
+      "properties": {
+        "id": { "$ref": "#/$defs/string" }, "title": { "$ref": "#/$defs/string" }, "charterRefs": { "$ref": "#/$defs/stringList" },
+        "journeyRefs": { "$ref": "#/$defs/stringList" }, "localObjective": { "$ref": "#/$defs/string" }, "localAcceptance": { "$ref": "#/$defs/stringList" },
+        "globalAcceptance": { "$ref": "#/$defs/stringList" }, "forbiddenScope": { "$ref": "#/$defs/stringList" }, "escalationRule": { "$ref": "#/$defs/string" },
+        "dependencies": { "$ref": "#/$defs/stringList" }, "validationBoundary": { "$ref": "#/$defs/validationBoundary" },
+        "oracleRefs": { "$ref": "#/$defs/oracleRefs" }, "verticalSlice": { "$ref": "#/$defs/verticalSlice" }
+      }
+    },
+    "clause": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "statement"],
+      "properties": { "id": { "$ref": "#/$defs/string" }, "kind": { "$ref": "#/$defs/string" }, "statement": { "$ref": "#/$defs/string" } }
+    },
+    "productMovie": {
+      "type": "object", "additionalProperties": false,
+      "properties": { "trigger": { "$ref": "#/$defs/string" }, "magic": { "$ref": "#/$defs/string" }, "repeat": { "$ref": "#/$defs/string" }, "monetization": { "$ref": "#/$defs/string" }, "sharing": { "$ref": "#/$defs/string" } }
+    },
+    "controls": {
+      "type": "object", "additionalProperties": false,
+      "properties": { "rollback": { "$ref": "#/$defs/string" }, "pause": { "$ref": "#/$defs/string" }, "cancel": { "$ref": "#/$defs/string" } }
+    }
+  }
+}
