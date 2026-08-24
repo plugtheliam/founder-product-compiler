@@ -1,0 +1,40 @@
+name: Translation or localization
+description: Improve a localized README or add a supported language.
+title: "[i18n]: "
+labels:
+  - documentation
+  - i18n
+body:
+  - type: input
+    id: locale
+    attributes:
+      label: Locale or language
+      placeholder: ko, ja, zh-CN, es
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Contribution type
+      options:
+        - Fix an existing translation
+        - Add a new language
+        - Improve terminology or examples
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and suggested wording
+      description: Link to the section and explain the intended meaning in the target language.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Translation checks
+      options:
+        - label: I checked the canonical English README and kept the install command and safety claims aligned.
+          required: true
+        - label: I did not include private, confidential, or machine-generated product claims.
+          required: true

@@ -72,18 +72,18 @@ The wrapper preserves the compiler contract:
 - Exit `1`: input, compiler, unsafe output, overwrite, or artifact-validation
   error. Explain the error and do not claim readiness.
 
-After a successful run, inspect the receipt and readiness report, then summarize:
+After a successful run, inspect the receipt and readiness artifact, then summarize:
 
 - readiness verdict and every error/warning;
 - the Product IR link;
-- the readiness report link;
+- the readiness artifact link (`readiness.json`);
 - the executable specification and Goal DAG links when `READY`;
 - the compilation receipt and diagnostics links;
 - the output directory and the exact next decision or validation step.
 
 For `NOT_READY`, do not present executable goals as approved. Link the partial
-Product IR, readiness, diagnostics, and receipt so the founder can review the
-blocking contract. Keep warnings separate from errors.
+Product IR, readiness artifact, diagnostics, and receipt so the founder can
+review the blocking contract. Keep warnings separate from errors.
 
 ## Input shape
 

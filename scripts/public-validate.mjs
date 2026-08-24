@@ -16,6 +16,9 @@ const required = [
   "plugins/founder-product-compiler/scripts/runtime/validate-artifacts.mjs",
   "plugins/founder-product-compiler/THIRD_PARTY_NOTICES.md",
   "plugins/founder-product-compiler/assets/canonical-input.json",
+  "docs/RELEASE_NOTES_v0.1.0.md", "docs/SHOWCASE.md", "docs/ROADMAP.md", "docs/TRANSLATION_GUIDE.md",
+  "docs/assets/social-preview.svg", "docs/i18n/README.ko.md", "docs/i18n/README.ja.md",
+  "docs/i18n/README.zh-CN.md", "docs/i18n/README.es.md",
 ];
 const forbiddenPath = /(^|\/)(AGENTS\.md|sessions|receipts|blueprint\.md|CODEX_WORK_ORDER\.md|PROJECT\.md|NOW\.md|HANDOFF\.md|TASKS\.md|DECISIONS\.md|SOURCES\.md|node_modules|dist)(\/|$)|\.mcp\.json$|\.app\.json$|^plugins\/marketplace\.json$/i;
 const allowText = new Set(["docs/PUBLIC_RELEASE_PLAN.md", "docs/TDD_IMPLEMENTATION_RECEIPT.md", "scripts/public-validate.mjs", "test/public-release.test.mjs"]);

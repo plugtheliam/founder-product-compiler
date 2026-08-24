@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a usage question
+    url: https://github.com/plugtheliam/founder-product-compiler/discussions/categories/q-a
+    about: Ask how to install, invoke, or interpret the compiler in Discussions.
+  - name: Open a general issue
+    url: https://github.com/plugtheliam/founder-product-compiler/issues/new/choose
+    about: Use an issue if Discussions are unavailable or your report does not fit a template.
+  - name: Read the security policy
+    url: https://github.com/plugtheliam/founder-product-compiler/blob/main/SECURITY.md
+    about: Report a security issue privately using the documented process.

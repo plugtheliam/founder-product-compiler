@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a focused improvement to the product compiler or its documentation.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Strong requests explain the founder or coding-agent problem first, then the proposed solution.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Who is affected, and what product-level problem are they trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the smallest useful behavior and any expected artifacts or output.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Explain the current workaround and why it is insufficient.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This request preserves the local-first, no-telemetry default.
+          required: true
+        - label: I have searched existing issues and discussions for duplicates.
+          required: true
